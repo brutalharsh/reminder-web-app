@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const initializeDatabase = require('./utils/dbInit');
 
 // Load environment variables
 dotenv.config();
@@ -15,7 +16,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/work-remi
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('Connected to MongoDB'))
+.then(async () => {
+    console.log('Connected to MongoDB');
+    // Initialize database with special categories
+    await initializeDatabase();
+})
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
