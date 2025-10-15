@@ -30,6 +30,7 @@ app.use(express.json());
 // Routes
 app.use('/api/users', require('./routes/users'));
 app.use('/api/categories', require('./routes/categories'));
+app.use('/api/tasks', require('./routes/tasks'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
