@@ -84,4 +84,32 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// PATCH complete task by ID
+router.patch('/:id/complete', async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+
+        // Find completed tasks category
+        const completedCategory = await Category.findOne({ name: 'Completed Tasks' });
+        if (completedCategory) {
+            task.category = completedCategory._id;
+            task.status = 'completed';
+            await task.save();
+
+            const populatedTask = await Task.findById(task._id)
+                .populate('assignedUser')
+                .populate('category');
+
+            res.json(populatedTask);
+        } else {
+            res.status(500).json({ error: 'Completed Tasks category not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;
