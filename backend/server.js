@@ -27,6 +27,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/work-remi
 app.use(cors());
 app.use(express.json());
 
+// Routes
+app.use('/api/users', require('./routes/users'));
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'Server is running' });
