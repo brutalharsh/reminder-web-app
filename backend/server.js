@@ -29,6 +29,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/users', require('./routes/users'));
+app.use('/api/categories', require('./routes/categories'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
